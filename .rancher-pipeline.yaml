@@ -1,1 +1,27 @@
-
+stages:
+- name: prepare
+  steps:
+  - runScriptConfig:
+      image: node:14.9-stretch-slim
+      shellScript: |-
+        npm install
+        npm run build
+- name: build
+  steps:      
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: atriarch-node-app-template:v1.0.${CICD_EXECUTION_SEQUENCE}
+      pushRemote: true
+      registry: docker.atriarch.systems
+- name: Deploy
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yaml
+timeout: 15
+notification:
+  recipients:
+  - recipient: pipelineNotifications@mail.atriarch.systems
+    notifier: c-56lvs:n-45qs9
+  condition:
+  - Failed

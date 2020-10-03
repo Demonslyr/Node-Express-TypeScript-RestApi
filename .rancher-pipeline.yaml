@@ -1,11 +1,4 @@
 stages:
-- name: prepare
-  steps:
-  - runScriptConfig:
-      image: node:14.9-stretch-slim
-      shellScript: |-
-        yarn install
-        npm run build
 - name: build
   steps:      
   - publishImageConfig:

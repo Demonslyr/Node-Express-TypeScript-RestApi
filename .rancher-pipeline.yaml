@@ -4,7 +4,7 @@ stages:
   - runScriptConfig:
       image: node:14.9-stretch-slim
       shellScript: |-
-        npm install
+        yarn install
         npm run build
 - name: build
   steps:      

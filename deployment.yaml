@@ -10,6 +10,8 @@ spec:
   ports:
   - name: http
     port: 80
+    protocol: TCP
+    targetPort: 3000
   selector:
     app: node-express-ts-api
 ---
@@ -38,7 +40,7 @@ spec:
             - name: Host
               value: node-express-ts-api.atriarch.systems
             path: /
-            port: 80
+            port: 3000
             scheme: HTTP
           initialDelaySeconds: 5
           periodSeconds: 10

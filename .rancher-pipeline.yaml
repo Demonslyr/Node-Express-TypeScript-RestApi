@@ -8,12 +8,12 @@ stages:
       pushRemote: true
       registry: docker.atriarch.systems
     env:
-      PLUGIN_MTU: 1400
+      PLUGIN_MTU: "1400"
 - name: Deploy
   steps:
   - applyYamlConfig:
       path: ./deployment.yaml
-timeout: 90
+timeout: 5
 notification:
   recipients:
   - recipient: dan@mail.atriarch.systems

@@ -1,4 +1,4 @@
-FROM node:12-alpine AS BUILD_IMAGE
+FROM node:14-alpine AS BUILD_IMAGE
 
 # couchbase sdk requirements
 RUN apk update && apk add yarn curl bash && rm -rf /var/cache/apk/*
@@ -28,7 +28,7 @@ RUN npm prune --production
 # run node prune
 RUN /usr/local/bin/node-prune
 
-FROM node:12-alpine
+FROM node:14-alpine
 
 WORKDIR /usr/src/app
 

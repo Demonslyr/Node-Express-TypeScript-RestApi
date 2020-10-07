@@ -2,10 +2,14 @@
 import express from "express";
 import bodyParser from "body-parser";
 import { AddressInfo } from 'net'
-import {addBasicRoutes} from "./routes/routes";
+import { addBasicRoutes } from "./routes/routes";
+import { checkJwt } from "./middleware/jwtAuth";
 
 // Express Initialize
 const app = express();
+
+// Add jwt auth
+app.use(checkJwt);
 
 // Add routes
 app.use(bodyParser.json());

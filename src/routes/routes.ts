@@ -1,10 +1,13 @@
 import { checkJwt } from "../middleware/jwtAuth";
 import { v4 as uuid } from 'uuid';
 import md5 from "md5";
+import { logger } from "../logging/logger";
 
 const addBasicRoutes = (app: any) => {
 
+    // Root hello world with info log
     app.get("/", checkJwt, (req: any, res: any) => {
+        logger.info("Hello world called!")
         res.send("Hello World");
     });
 

@@ -1,32 +1,44 @@
+import { checkJwt } from "../middleware/jwtAuth";
+import { v4 as uuid } from 'uuid';
+import md5 from "md5";
+
 const addBasicRoutes = (app: any) => {
 
-    app.get("/", (req: any, res: any) => {
+    app.get("/", checkJwt, (req: any, res: any) => {
         res.send("Hello World");
     });
 
-    app.get("/account", (req: any, res: any) => {
-        const accountMock = {
-            "username": "nraboy",
-            "password": "1234",
-            "twitter": "@nraboy"
-        }
-        if(!req.query.username) {
-            return res.send({"status": "error", "message": "missing username"});
-        } else if(req.query.username !== accountMock.username) {
-            return res.send({"status": "error", "message": "wrong username"});
-        } else {
-            return res.send(accountMock);
-        }
+    app.get("/guid", (req: any, res: any) => {
+        res.send(uuid());
     });
 
-    app.post("/account", (req: any, res: any) => {
-        if(!req.body.username || !req.body.password || !req.body.twitter) {
-            return res.send({"status": "error", "message": "missing a parameter"});
-        } else {
-            return res.send(req.body);
-        }
+    app.post("/md5", (req: any, res: any) => {
+        res.send(md5(uuid()));
     });
 
+    // chain route
+    app.route("/account")
+        .get(checkJwt, (req: any, res: any) => {
+            const accountMock = {
+                "username": "testUser",
+                "password": "test1234",
+                "twitter": "@testUser"
+            }
+            if(!req.query.username) {
+                return res.send({"status": "error", "message": "missing username"});
+            } else if(req.query.username !== accountMock.username) {
+                return res.send({"status": "error", "message": "wrong username"});
+            } else {
+                return res.send(accountMock);
+            }
+        })
+        .post(checkJwt, (req: any, res: any) => {
+            if(!req.body.username || !req.body.password || !req.body.twitter) {
+                return res.send({"status": "error", "message": "missing a parameter"});
+            } else {
+                return res.send(req.body);
+            }
+        });
 }
 
 export {addBasicRoutes}

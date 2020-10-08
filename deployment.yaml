@@ -39,7 +39,7 @@ spec:
             httpHeaders:
             - name: Host
               value: node-express-ts-api.atriarch.systems
-            path: /
+            path: /health
             port: 3000
             scheme: HTTP
           initialDelaySeconds: 5

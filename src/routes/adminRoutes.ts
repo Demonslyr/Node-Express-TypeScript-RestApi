@@ -1,9 +1,9 @@
-import { requiresAuth } from 'express-openid-connect';
+import { checkJwt } from "../middleware/jwtAuth";
 
-const addBasicRoutes = (app: any) => {
-    app.get('/admin', requiresAuth(), (req: any, res: any) =>
+const addAdminRoutes = (app: any) => {
+    app.get('/admin', checkJwt, (req: any, res: any) =>
         res.send(`Hello ${req.oidc.user.sub}, this is the admin section.`)
     );
 }
 
-export {addBasicRoutes}
+export {addAdminRoutes}
